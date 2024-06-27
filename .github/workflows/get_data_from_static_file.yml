@@ -1,0 +1,20 @@
+name: Get Data From Static YAML File
+
+on:
+    workflow_dispatch:
+
+jobs:
+    get_data_from_static_yaml_file:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v2
+
+            - name: Get Data From Static YAML File
+              uses: actions-hub/yq@v2
+              with:
+                    command: eval
+                    arguments: app.yml
+
+            - name: Print Data
+                run: echo ${{ steps.get_data_from_static_yaml_file.outputs.result }}
