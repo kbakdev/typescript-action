@@ -9,10 +9,24 @@ jobs:
         steps:
             - name: Checkout Repository
               uses: actions/checkout@v2
+            - name: Setup Python
+              uses: actions/setup-python@v2
+              with:
+                    python-version: '3.x'
 
-            - name: Get Data From Static YAML File
+            - name: Install shyaml
+              run: pip install shyaml
+
+            - name: Get Data From Static YAML File and set it as ENV
               id: get_data_from_static_yaml_file
               run: |
-                    echo "::set-output name=result::$(cat app.yml)"
-            - name: Print Data
-              run: echo ${{ steps.get_data_from_static_yaml_file.outputs.result }}
+                    NAME=$(cat app.yml | shyaml get-value name)
+                    VERSION=$(cat app.yml | shyaml get-value version)
+                    echo "NAME=$NAME" >> $GITHUB_ENV
+                    echo "VERSION=$VERSION" >> $GITHUB_ENV
+            
+
+            - name: Print ENVs
+              run: |
+                    echo "Name: $NAME"
+                    echo "Version: $VERSION"
