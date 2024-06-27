@@ -17,4 +17,4 @@ jobs:
                     arguments: app.yml
 
             - name: Print Data
-                run: echo ${{ steps.get_data_from_static_yaml_file.outputs.result }}
+              run: echo ${{ steps.get_data_from_static_yaml_file.outputs.result }}
